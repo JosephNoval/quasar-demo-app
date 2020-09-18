@@ -84,6 +84,9 @@ namespace DEMO_SERVER.Core.Repositories
 
                 using (var trx = db.Database.BeginTransaction())
                 {
+                    model.Customer = null;
+                    model.Details.ForEach(y => { y.Item = null; });
+
                     if (oldModel != null)
                     {
                         //update values

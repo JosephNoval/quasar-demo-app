@@ -61,7 +61,7 @@ export default Vue.extend({
       ],
       //for buttons
       buttons: [
-        { style: 'margin-top: 4px;', icon: 'add_circle', color: 'positive', label: 'Add', title: 'Add New', click: 'on-new' }
+        { icon: 'add_circle', color: 'positive', label: 'Add', title: 'Add New', click: 'on-new' }
       ],
       tableButtons: [
         { icon: 'create', color: 'secondary', size: 'sm', label: 'Edit', click: 'on-edit' },
@@ -72,11 +72,9 @@ export default Vue.extend({
   methods: {
     ...mapActions('customer_store',['get','delete']),
     onNew(){
-      // @ts-ignore
       this.$router.push('/customer').catch(err => {})
     },
     onEdit(props: any){
-      // @ts-ignore
       this.$router.push('/customer/' + props.row.ID).catch(err => {})
     },
     onDelete(){

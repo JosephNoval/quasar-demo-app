@@ -2,6 +2,8 @@ import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
 import auth_store from '../pages/account/store/authStore';
 import customer_store from '../pages/master-data/customer/store/customerStore';
+import item_store from '../pages/master-data/item/store/itemStore';
+import order_store from '../pages/transaction/order/store/orderStore';
 
 // import example from './module-example';
 // import { ExampleStateInterface } from './module-example/state';
@@ -25,7 +27,9 @@ export default store(function ({ Vue }) {
     modules: {
       // example
       auth_store,
-      customer_store
+      customer_store,
+      item_store,
+      order_store
     },
 
     // enable strict mode (adds overhead!)

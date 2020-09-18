@@ -11,12 +11,12 @@ const routes: RouteConfig[] = [
     },
     children: [
       { path: '', component: () => import('pages/Index.vue') },
-      { path: 'customer-list', name: 'customer', component: () => import('pages/master-data/customer/CustomerListPage.vue') },
-      { path: 'customer/:ID?', name: 'customer', component: () => import('pages/master-data/customer/CustomerCreatePage.vue') },
-      { path: 'item-list', name: 'item', component: () => import('pages/master-data/item/ItemListPage.vue') },
-      { path: 'item/:ID?', name: 'item', component: () => import('pages/master-data/item/ItemCreatePage.vue') },
-      { path: 'order-list', name: 'order', component: () => import('pages/transaction/order/OrderListPage.vue') },
-      { path: 'order/:ID?', name: 'order', component: () => import('pages/transaction/order/OrderCreatePage.vue') }
+      { path: 'customer-list', name: 'Customer', component: () => import('pages/master-data/customer/CustomerListPage.vue') },
+      { path: 'customer/:ID?', name: 'Customer', component: () => import('pages/master-data/customer/CustomerCreatePage.vue') },
+      { path: 'item-list', name: 'Item', component: () => import('pages/master-data/item/ItemListPage.vue') },
+      { path: 'item/:ID?', name: 'Item', component: () => import('pages/master-data/item/ItemCreatePage.vue') },
+      { path: 'order-list', name: 'Order', component: () => import('pages/transaction/order/OrderListPage.vue') },
+      { path: 'order/:ID?', name: 'Order', component: () => import('pages/transaction/order/OrderCreatePage.vue') }
     ]
   },
 

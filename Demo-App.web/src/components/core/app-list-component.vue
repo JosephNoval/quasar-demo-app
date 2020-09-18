@@ -11,22 +11,22 @@
           no-results-label="The filter didn't uncover any results"
           :row-key="rowKey"
         >
+          <!-- Top Buttons and Search Box -->
           <template v-slot:top>
-            
-            <!-- buttons -->
-            <template v-for="(button, key) in mutableButtons">
-              <q-btn
-                :stretch="button.stretch"
-                class="q-mr-sm"
-                :style="button.style"
-                :key="key"
-                :icon="button.icon"
-                :color="button.color"
-                :label="button.label"
-                :title="button.title"
-                @click="$emit(button.click == undefined ? '' : button.click)" />
-            </template>
-
+            <q-btn-group>
+              <!-- buttons -->
+              <template v-for="(button, key) in mutableButtons">
+                <q-btn
+                  glossy
+                  :key="key"
+                  :icon="button.icon"
+                  :color="button.color"
+                  :label="button.label"
+                  :title="button.title"
+                  @click="$emit(button.click == undefined ? '' : button.click)" />
+              </template>
+            </q-btn-group>
+          
             <q-space />
             <q-input
               v-show="mutableShowFilter"
@@ -52,6 +52,7 @@
           <!-- table header -->
           <template v-slot:header="props">
             <q-tr :props="props">
+              <!-- if mutableTableButtons not null then First column Header is Actions -->
               <q-th v-if="mutableTableButtons" auto-width class='bg-secondary text-white' >Actions</q-th>
               <q-th
                 v-for="col in props.cols"
@@ -70,6 +71,7 @@
               :title="mutableRowHoverTitle"
               @dblclick="$emit('on-edit', props)"
               @click="$emit('on-view', props)">
+              <!-- if mutableTableButtons not null then display buttons in First column in body-->
               <q-td
                 v-if="mutableTableButtons"
                 auto-width>

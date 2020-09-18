@@ -1,38 +1,38 @@
 import { Utils } from "src/core/utils/utils";
-import { Customer } from "../model/customer";
-import { customerService } from "../service/customerService";
+import { Item } from "../model/item";
+import { itemService } from "../service/itemService";
 
 const state =  {
-    Customers:  [] as Customer[]
+    Items:  [] as Item[]
 }
 const mutations = {
-    setState(state: any, payload: Customer[]) {
+    setState(state: any, payload: Item[]) {
         for(var x=0;x<payload.length;x++){
             payload[x].RecordStatus = Utils.GetStatus(payload[x].RecordStatus);
         }
-        state.Customers = payload;
+        state.Items = payload;
     },
-    addNew(state: any, payload: Customer){
+    addNew(state: any, payload: Item){
         payload.RecordStatus = Utils.GetStatus(payload.RecordStatus);
-        state.Customers.push(payload);
+        state.Items.push(payload);
     },
-    update(state: any, payload: Customer){
+    update(state: any, payload: Item){
 
         payload.RecordStatus = Utils.GetStatus(payload.RecordStatus);
 
-        state.Customers.forEach((val:any, key:any) => {
+        state.Items.forEach((val:any, key:any) => {
             if(val.ID == payload.ID){
-                Object.assign(state.Customers[key], payload);
+                Object.assign(state.Items[key], payload);
             }
         })
     },
     delete(state: any, payload: number){
 
-        state.Customers.forEach((val:any, key:any) => {
+        state.Items.forEach((val:any, key:any) => {
             if(val.ID == payload){
                 var newVal = val;
                 newVal.RecordStatus = 'Deleted';
-                Object.assign(state.Customers[key], newVal);
+                Object.assign(state.Items[key], newVal);
             }
         })
     }
@@ -41,12 +41,12 @@ const actions = {
     // @ts-ignore
     async get({ commit }) {
         
-        var res = await customerService.getAll();
+        var res = await itemService.getAll();
         commit('setState', res)
     },
     // @ts-ignore
-    async addOrUpdate({ commit }, payload: Customer){
-        var res = await customerService.addOrUpdate(payload);
+    async addOrUpdate({ commit }, payload: Item){
+        var res = await itemService.addOrUpdate(payload);
         if(res != 0){
             if(payload.ID == 0){
                 payload.ID = res;
@@ -62,7 +62,7 @@ const actions = {
     },
     // @ts-ignore
     async getById({ commit }, payload: Number){
-        var res = await customerService.getById(payload);
+        var res = await itemService.getById(payload);
         if(res != null){
             commit('update', res)
             return true;
@@ -71,7 +71,7 @@ const actions = {
     },
     // @ts-ignore
     async delete({ commit }, payload: number){
-        var res = await customerService.delete(payload);
+        var res = await itemService.delete(payload);
         if(res == 'Success'){
             commit('delete', payload)
             return true;
@@ -80,12 +80,12 @@ const actions = {
     }
 }
 const getters = {
-    Customers: (state: any) => {
-        return state.Customers as Customer[];
+    Items: (state: any) => {
+        return state.Items as Item[];
     },
-    Customer: (state: any, payload : any) => {
-        var res = {} as Customer;
-        state.Customers.forEach((val:Customer, key:any) => {
+    Item: (state: any, payload : any) => {
+        var res = {} as Item;
+        state.Items.forEach((val:Item, key:any) => {
             if(val.ID == payload){
                 res = val;
             }

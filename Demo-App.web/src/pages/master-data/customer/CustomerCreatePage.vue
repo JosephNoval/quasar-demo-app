@@ -31,7 +31,7 @@
         <q-input
           outlined
           dense
-          v-model.number="formData.Middlename"
+          v-model="formData.Middlename"
           label="Middlename"
           lazy-rules
           :rules="[ val => !!val || 'Please type Middlename']"
@@ -40,7 +40,7 @@
         <q-input
           outlined
           dense
-          v-model.number="formData.Lastname"
+          v-model="formData.Lastname"
           label="Lastname"
           lazy-rules
           :rules="[ val => !!val || 'Please type Lastname']"
@@ -196,7 +196,6 @@ export default Vue.extend({
       this.RecordStatusType = { label: 'Active', value: 0};
       this.showDeleteButton = false;
       if (this.$route.path.includes('customer/')) {
-        // @ts-ignore
         this.$router.push('/customer').catch(err => {});
         console.log('new')
       }
@@ -206,7 +205,6 @@ export default Vue.extend({
       if(this.formData.ID > 0){
           if(this.delete(this.formData.ID)){
             this.formData.RecordStatus = 1;
-            // @ts-ignore
             this.RecordStatusType = {
               label: 'Deleted',
               value: 1
@@ -243,7 +241,6 @@ export default Vue.extend({
     },
     showButtons(){
       //show delete button
-      // @ts-ignore
       if(this.RecordStatusType?.value == 0){
         this.showDeleteButton = true;
       }
@@ -252,7 +249,6 @@ export default Vue.extend({
       }
     },
     onFind(){
-      // @ts-ignore
       this.$router.push('/customer-list').catch(err => {});
     }
   },
@@ -267,7 +263,6 @@ export default Vue.extend({
         Lastname: _customer.Lastname,
         RecordStatus: Utils.GetStatus(_customer.RecordStatus)
       };
-      // @ts-ignore
       this.RecordStatusType = {
         label: _customer.RecordStatus.toString(),
         value: Utils.GetStatus(_customer.RecordStatus)

@@ -8,7 +8,7 @@ const state = {
     auth: {
         isLogIn: value ? value.isLogIn : false,
         Token: value ? value.Token : '',
-        User: value ? value.User : new User()
+        User: value ? value.User : {} as User
       } as Auth
 }
 const mutations = {
@@ -18,7 +18,7 @@ const mutations = {
     clearAuthState(state: any){
       state.auth.isLogIn = false;
       state.auth.Token = '';
-      state.auth.User = new User();
+      state.auth.User = {} as User;
       SessionStorage.remove('auth');
     }
 }

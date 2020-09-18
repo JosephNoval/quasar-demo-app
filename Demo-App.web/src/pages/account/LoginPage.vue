@@ -1,17 +1,10 @@
 <template>
   <div class="flex q-pa-md">
     <q-card class="full-width">
-      
-      <q-tab-panels
-        v-model="panel"
-        animated
-        swipeable
-        infinite
+      <div
         class="text-white shadow-2 rounded-borders fixed-center"
-        style="width:500px"
+        style="width:auto;min-width:300px;"
       >
-        <q-tab-panel name="login">
-
           <div class="text-black text-center">
             <h4 class="q-mb-md">1028 Business Consultancy</h4>
           </div>
@@ -82,9 +75,8 @@
             Powered by 1028 Business Consultancy Inc.
           </div>
 
-        </q-tab-panel>
-      </q-tab-panels>
-    </q-card>
+      </div>
+      </q-card>
   </div>
 </template>
 
@@ -96,7 +88,6 @@ export default Vue.extend({
   name: "LoginPage",
   data() {
     return {
-      panel: "login",
       isPwd: true,
       formData: {
         Username: '',

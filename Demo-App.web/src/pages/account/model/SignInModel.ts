@@ -1,4 +1,4 @@
-export class SignInModel{
-    Username: string = '';
-    Password: string = '';
+export interface SignInModel{
+    Username: string;
+    Password: string;
 }
