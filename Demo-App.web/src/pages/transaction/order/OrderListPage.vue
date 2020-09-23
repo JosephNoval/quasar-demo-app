@@ -13,7 +13,8 @@
         :rowHoverTitle="'Double click to edit'"
         @on-edit="onEdit"
         @on-new="onNew"
-        @on-confirm-delete="onShowConfirmDeleteDialog" />
+        @on-confirm-delete="onShowConfirmDeleteDialog"
+        @on-refresh="onRefresh" />
       
       <!-- confirm delete dialog -->
       <app-confirm-dialog
@@ -55,14 +56,16 @@ export default Vue.extend({
       columns: [
         { name: 'ID', align: 'center', label: 'ID', field: 'ID', sortable: true, headerClasses: 'bg-secondary text-white' },
         { name: 'OrderNo', align: 'center',label: 'Order No', field: 'OrderNo', sortable: true, headerClasses: 'bg-secondary text-white' },
-        { name: 'CustomerName', align: 'center',label: 'Customer', field: 'CustomerName', sortable: true, headerClasses: 'bg-secondary text-white' },
+        // @ts-ignore
+        { name: 'CustomerName', align: 'center',label: 'Customer', field: row => `${row.Customer.Firstname} ${row.Customer.Middlename} ${row.Customer.Lastname}`, sortable: true, headerClasses: 'bg-secondary text-white' },
         { name: 'PaymentMethod', align: 'center',label: 'Payment Method', field: 'PaymentMethod', sortable: true, headerClasses: 'bg-secondary text-white' },
         { name: 'Total', align: 'center',label: 'Total', field: 'Total', sortable: true, headerClasses: 'bg-secondary text-white' },
         { name: 'RecordStatus', align: 'center',label: 'Record Status', field: 'RecordStatus', sortable: true, headerClasses: 'bg-secondary text-white' }
       ],
       //for buttons
       buttons: [
-        { icon: 'add_circle', color: 'positive', label: 'Add', title: 'Add New', click: 'on-new' }
+        { icon: 'add_circle', color: 'positive', label: 'Add', title: 'Add New', click: 'on-new' },
+        { icon: 'refresh', color: 'info', label: 'Refresh', title: 'Refresh', click: 'on-refresh' }
       ],
       tableButtons: [
         { icon: 'create', color: 'secondary', size: 'sm', label: 'Edit', click: 'on-edit' },
@@ -72,6 +75,9 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('order_store',['get','delete']),
+    onRefresh(){
+      this.get();
+    },
     onNew(){
       this.$router.push('/order').catch(err => {})
     },

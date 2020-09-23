@@ -13,7 +13,8 @@
         :rowHoverTitle="'Double click to edit'"
         @on-edit="onEdit"
         @on-new="onNew"
-        @on-confirm-delete="onShowConfirmDeleteDialog" />
+        @on-confirm-delete="onShowConfirmDeleteDialog"
+        @on-refresh="onRefresh" />
       
       <!-- confirm delete dialog -->
       <app-confirm-dialog
@@ -61,7 +62,8 @@ export default Vue.extend({
       ],
       //for buttons
       buttons: [
-        { icon: 'add_circle', color: 'positive', label: 'Add', title: 'Add New', click: 'on-new' }
+        { icon: 'add_circle', color: 'positive', label: 'Add', title: 'Add New', click: 'on-new' },
+        { icon: 'refresh', color: 'info', label: 'Refresh', title: 'Refresh', click: 'on-refresh' }
       ],
       tableButtons: [
         { icon: 'create', color: 'secondary', size: 'sm', label: 'Edit', click: 'on-edit' },
@@ -70,7 +72,10 @@ export default Vue.extend({
     }
   },
   methods: {
-    ...mapActions('item_store',['get','delete']),
+    ...mapActions('item_store',['getItems','delete']),
+    onRefresh(){
+      this.getItems();
+    },
     onNew(){
       this.$router.push('/item').catch(err => {})
     },
@@ -115,7 +120,7 @@ export default Vue.extend({
     ...mapGetters('item_store',['Items'])
   },
   beforeMount(){
-    this.get();
+    this.getItems();
   }
 })
 </script>

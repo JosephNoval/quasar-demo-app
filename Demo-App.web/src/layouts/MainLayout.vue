@@ -40,26 +40,11 @@
       </q-toolbar>
     </q-header>
 
-    <!-- <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer> -->
+    <q-footer elevated v-if="($route.name != 'Order') || ($route.path.toString().includes('order-list'))">
+      <q-toolbar>
+        <q-toolbar-title class="text-caption">Powered by: 1028 Business Consultancy</q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
 
     <q-drawer
         v-model="leftDrawerOpen"

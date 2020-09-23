@@ -1,6 +1,6 @@
-import { Item } from "electron";
 import { BaseEntity } from "src/core/model/BaseEntity";
 import { Customer } from "src/pages/master-data/customer/model/customer";
+import { Item } from "src/pages/master-data/item/model/item";
 
 export interface Order extends BaseEntity{
     OrderNo: string;
@@ -16,6 +16,7 @@ export interface Order extends BaseEntity{
 export interface OrderDetails extends BaseEntity{
     OrderId: number;
     ItemId: number;
+    ItemName: string;
     Quantity: number;
     Price: number;
 
@@ -24,5 +25,5 @@ export interface OrderDetails extends BaseEntity{
 
 export enum PaymentType {
     Cash = 0,
-    Credit = 0
+    Credit = 1
 }

@@ -39,7 +39,7 @@ const mutations = {
 }
 const actions = {
     // @ts-ignore
-    async get({ commit }) {
+    async getItems({ commit }) {
         
         var res = await itemService.getAll();
         commit('setState', res)
@@ -91,6 +91,15 @@ const getters = {
             }
         });
         return res;
+    },
+    ActiveItems: (state: any) => {
+        var modelFiltered = [] as  Item[];
+        state.Items.forEach((val:any, key:any) => {
+            if(val.RecordStatus == 'Active'){
+                modelFiltered.push(val);
+            }
+        });
+        return modelFiltered;
     }
 }
 export default {

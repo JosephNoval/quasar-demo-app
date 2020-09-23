@@ -87,6 +87,8 @@ import AppConfirmDialogComponent from "components/core/app-confirm-dialog.vue";
 import AppButtonComponent from "components/core/app-button-component.vue";
 import customerStore from 'pages/master-data/customer/store/customerStore';
 import { Utils } from 'src/core/utils/utils';
+import { customerService } from './service/customerService';
+import { Customer } from './model/customer';
 
 export default Vue.extend({
   // name: 'PageName',
@@ -105,13 +107,7 @@ export default Vue.extend({
       showDialog: false,
       showDeleteButton: false,
       // for form data
-      formData: {
-        ID: 0,
-        Firstname: '',
-        Middlename: '',
-        Lastname: '',
-        RecordStatus: 0
-      },
+      formData: { ID:0 } as Customer,
       RecordStatusType: { label: 'Active', value: 0},
       RecordStatusTypeOptions: [
         {
@@ -188,16 +184,11 @@ export default Vue.extend({
       }
     },
     onReset() {
-      this.formData.ID = 0;
-      this.formData.Firstname = '';
-      this.formData.Lastname = '';
-      this.formData.Middlename = '';
-      this.formData.RecordStatus = 0;
+      this.formData = { ID:0 } as Customer;
       this.RecordStatusType = { label: 'Active', value: 0};
       this.showDeleteButton = false;
-      if (this.$route.path.includes('customer/')) {
+      if (this.$route.params.ID !== undefined) {
         this.$router.push('/customer').catch(err => {});
-        console.log('new')
       }
       (this.$refs["Firstname"] as HTMLElement).focus()
     },
@@ -252,23 +243,22 @@ export default Vue.extend({
       this.$router.push('/customer-list').catch(err => {});
     }
   },
-  mounted(){
+  async mounted(){
     if(this.$route.params.ID !== undefined){
       var _id = this.$route.params.ID;
-      var _customer = customerStore.getters.Customer(customerStore.state,_id);
-      this.formData = {
-        ID: _customer.ID,
-        Firstname: _customer.Firstname,
-        Middlename: _customer.Middlename,
-        Lastname: _customer.Lastname,
-        RecordStatus: Utils.GetStatus(_customer.RecordStatus)
-      };
-      this.RecordStatusType = {
-        label: _customer.RecordStatus.toString(),
-        value: Utils.GetStatus(_customer.RecordStatus)
+      var model = await customerService.getById(Number(_id));
+      if(model){
+        this.formData = model;
+        this.RecordStatusType = {
+          label: Utils.GetStatus(this.formData.RecordStatus),
+          value: Number(this.formData.RecordStatus)
+        }
+        //show delete button
+        this.showButtons();
       }
-      //show delete button
-      this.showButtons();
+      else{
+        this.$router.push('/customer').catch(err => {});
+      }
     }
     (this.$refs["Firstname"] as HTMLElement).focus()
   },

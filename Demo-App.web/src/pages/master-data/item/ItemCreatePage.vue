@@ -40,14 +40,15 @@
         <q-input
           dense
           outlined
+          ref="Price"
           v-model="formData.Price"
           label="Price"
-          mask="#.##"
-          fill-mask="0"
-          reverse-fill-mask
           input-class="text-left"
           lazy-rules
-          :rules="[ val => !!val || 'Please input Price']"
+          :rules="[
+          val => val !== null && val !== '' || 'Please input Price',
+          val => val > 0 || 'Please type a real Price'
+        ]"
         />
 
         <q-select
@@ -91,6 +92,8 @@ import AppConfirmDialogComponent from "components/core/app-confirm-dialog.vue";
 import AppButtonComponent from "components/core/app-button-component.vue";
 import itemStore from 'pages/master-data/item/store/itemStore';
 import { Utils } from 'src/core/utils/utils';
+import { Item } from './model/item';
+import { itemService } from './service/itemService';
 
 export default Vue.extend({
   // name: 'PageName',
@@ -109,13 +112,7 @@ export default Vue.extend({
       showDialog: false,
       showDeleteButton: false,
       // for form data
-      formData: {
-        ID: 0,
-        Name: '',
-        Description: '',
-        Price: 0.00,
-        RecordStatus: 0
-      },
+      formData: { ID:0 } as Item,
       RecordStatusType: { label: 'Active', value: 0},
       RecordStatusTypeOptions: [
         {
@@ -192,14 +189,10 @@ export default Vue.extend({
       }
     },
     onReset() {
-      this.formData.ID = 0;
-      this.formData.Name = '';
-      this.formData.Description = '';
-      this.formData.Price = 0.00;
-      this.formData.RecordStatus = 0;
+      this.formData = { ID:0 } as Item;
       this.RecordStatusType = { label: 'Active', value: 0};
       this.showDeleteButton = false;
-      if (this.$route.path.includes('item/')) {
+      if (this.$route.params.ID !== undefined) {
         this.$router.push('/item').catch(err => {});
       }
       (this.$refs["Name"] as HTMLElement).focus()
@@ -255,23 +248,22 @@ export default Vue.extend({
       this.$router.push('/item-list').catch(err => {});
     }
   },
-  mounted(){
+  async mounted(){
     if(this.$route.params.ID !== undefined){
       var _id = this.$route.params.ID;
-      var _item = itemStore.getters.Item(itemStore.state,_id);
-      this.formData = {
-        ID: _item.ID,
-        Name: _item.Name,
-        Description: _item.Description,
-        Price: _item.Price,
-        RecordStatus: Utils.GetStatus(_item.RecordStatus)
-      };
-      this.RecordStatusType = {
-        label: _item.RecordStatus.toString(),
-        value: Utils.GetStatus(_item.RecordStatus)
+      var model = await itemService.getById(Number(_id));
+      if(model){
+        this.formData = model;
+        this.RecordStatusType = {
+          label: Utils.GetStatus(this.formData.RecordStatus),
+          value: Number(this.formData.RecordStatus)
+        }
+        //show delete button
+        this.showButtons();
       }
-      //show delete button
-      this.showButtons();
+      else{
+        this.$router.push('/item').catch(err => {});
+      }
     }
     (this.$refs["Name"] as HTMLElement).focus()
   },

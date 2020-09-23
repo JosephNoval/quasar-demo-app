@@ -91,9 +91,18 @@
               <q-td
                 v-for="col in props.cols"
                 :key="col.name"
-                :props="props"
-              >
+                :props="props">
                 {{ col.value }}
+                <q-btn
+                  v-if="col.name == 'OrderQuantity'"
+                  dense
+                  color="warning"
+                  size="sm"
+                  title="Click to Edit Quantity"
+                  icon="create" />
+                <q-popup-edit v-if="col.name == 'OrderQuantity'" v-model="props.row.Quantity" title="Update Quantity" buttons persistent>
+                  <q-input type="number" v-model="props.row.Quantity" @change="$emit('on-generate-total')" dense autofocus/>
+                </q-popup-edit>
               </q-td>
             </q-tr>
           </template>
