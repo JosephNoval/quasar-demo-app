@@ -208,7 +208,7 @@ export default Vue.extend({
         { name: 'ItemName', align: 'center',label: 'Item Name', field: row => row.Item.Name, sortable: true, headerClasses: 'bg-secondary text-white' },
         // @ts-ignore
         { name: 'Description', align: 'center',label: 'Description', field: row => row.Item.Description, sortable: true, headerClasses: 'bg-secondary text-white' },
-        { name: 'OrderQuantity', align: 'center',label: 'Quantity', field: 'Quantity', sortable: true, headerClasses: 'bg-secondary text-white' },
+        { name: 'E_InputQuantity', align: 'center',label: 'Quantity', field: 'Quantity', sortable: true, headerClasses: 'bg-secondary text-white' },
         { name: 'Price', align: 'center',label: 'Price', field: 'Price', sortable: true, headerClasses: 'bg-secondary text-white' }
       ],
       tableButtons: [
@@ -250,7 +250,7 @@ export default Vue.extend({
       if(this.formData.ID == 0){
         this.addOrUpdate(this.formData).then(res => {
           if(res != 0){
-            this.formData.ID = res;
+            this.$router.push('/order/' + res).catch(err => {});
             this.$q.notify({
               color: "green-4",
               textColor: "white",

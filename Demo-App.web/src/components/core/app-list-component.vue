@@ -92,17 +92,41 @@
                 v-for="col in props.cols"
                 :key="col.name"
                 :props="props">
-                {{ col.value }}
+                {{ !col.name.toLowerCase().includes('e_input') ? col.value : '' }}
+                <!-- for popup edit -->
                 <q-btn
-                  v-if="col.name == 'OrderQuantity'"
+                  v-if="col.name.toLowerCase().includes('e_popup')"
                   dense
                   color="warning"
                   size="sm"
-                  title="Click to Edit Quantity"
+                  :title="`Click to Edit ${col.field}`"
                   icon="create" />
-                <q-popup-edit v-if="col.name == 'OrderQuantity'" v-model="props.row.Quantity" title="Update Quantity" buttons persistent>
-                  <q-input type="number" v-model="props.row.Quantity" @change="$emit('on-generate-total')" dense autofocus/>
+                <q-popup-edit v-if="col.name.toLowerCase().includes('e_popup')" v-model="props.row[col.field]" :title="`Update ${col.field}`" buttons persistent>
+                  <q-input
+                    :type="col.field.toLowerCase().includes('quantity') ? 'number' : ''"
+                    v-model="props.row[col.field]"
+                    @change="$emit('on-generate-total')"
+                    dense
+                    autofocus
+                    lazy-rules
+                    :rules="[
+                    val => val !== null && val !== '' || `Please input ${col.field}`,
+                    val => val > 0 || `Please type a real ${col.field}`]" />
                 </q-popup-edit>
+                <!-- for input type col for edit -->
+                <q-input
+                    outlined
+                    :style="col.field.toLowerCase().includes('price') ? 'width: 120px !important;' : col.field.toLowerCase().includes('quantity') ? 'width: auto !important;' : 'width: 200px !important;'"
+                    class="absolute-center q-pa-sm"
+                    v-if="col.name.toLowerCase().includes('e_input')"
+                    :type="col.field.toLowerCase().includes('quantity') ? 'number' : ''"
+                    v-model="props.row[col.field]"
+                    @change="$emit('on-generate-total')"
+                    dense
+                    lazy-rules
+                    :rules="[
+                    val => val !== null && val !== '' || `Please input ${col.field}`,
+                    val => val > 0 || `Please type a real ${col.field}`]" />
               </q-td>
             </q-tr>
           </template>

@@ -141,7 +141,7 @@ export default Vue.extend({
       if(this.formData.ID == 0){
         this.addOrUpdate(this.formData).then(res => {
           if(res != 0){
-            this.formData.ID = res;
+            this.$router.push('/item/' + res).catch(err => {});
             this.$q.notify({
               color: "green-4",
               textColor: "white",
